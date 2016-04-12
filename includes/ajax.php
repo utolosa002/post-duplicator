@@ -4,7 +4,7 @@
  * Thehe jQuery ajax call to create a new post.
  * Duplicates all the data including custom meta.
  *
- * @since 2.16
+ * @since 2.18
  */
 function m4c_duplicate_post() {
 	
@@ -33,23 +33,24 @@ function m4c_duplicate_post() {
 /*MODHACK*/ $duplicate_tr = get_post( $trans_id, 'ARRAY_A' );
 	
 	$settings = get_mtphr_post_duplicator_settings();
+/*MODHACK*/$settings1 = get_mtphr_post_duplicator_settings();
 	
 	// Modify some of the elements
 	$duplicate['post_title'] = $duplicate['post_title'].' '.$settings['title'];
 	$duplicate['post_name'] = sanitize_title($duplicate['post_name'].'-'.$settings['slug']);
-/*MODHACK*/$duplicate_tr['post_title'] = $duplicate_tr['post_title'].' '.$settings['title'];
-/*MODHACK*/$duplicate_tr['post_name'] = sanitize_title($duplicate_tr['post_name'].'-'.$settings['slug']);
+/*MODHACK*/$duplicate_tr['post_title'] = $duplicate_tr['post_title'].' '.$settings1['title'];
+/*MODHACK*/$duplicate_tr['post_name'] = sanitize_title($duplicate_tr['post_name'].'-'.$settings1['slug']);
 
 	// Set the status
 	if( $settings['status'] != 'same' ) {
 		$duplicate['post_status'] = $settings['status'];
-/*MODHACK*/	$duplicate_tr['post_status'] = $settings['status'];
+/*MODHACK*/	$duplicate_tr['post_status'] = $settings1['status'];
 	}
 	
 	// Set the type
 	if( $settings['type'] != 'same' ) {
 		$duplicate['post_type'] = $settings['type'];
-/*MODHACK*/	$duplicate_tr['post_type'] = $settings['type'];
+/*MODHACK*/	$duplicate_tr['post_type'] = $settings1['type'];
 	}
 	
 	// Set the post date
@@ -93,10 +94,10 @@ function m4c_duplicate_post() {
 /*MODHACK*/ $trid = wpml_get_content_trid( 'post_artxiboa',$duplicate_id);
 /*MODHACK*/ if (ICL_LANGUAGE_CODE=='eu' ){
 /*MODHACK*/ $wpdb->update($wpdb->prefix.'icl_translations', array('language_code'=>'es'), array('element_id'=> $duplicate_tr_id));
-/*MODHACK*/ $wpdb->update($wpdb->prefix.'icl_translations', array( 'trid' => $trid, 'element_type' => 'post_artxiboa', 'language_code' => 'es', 'source_language_code' => 'eu' ), array( 'element_id' => $duplicate_tr_id ) );
+/*MODHACK*/ $wpdb->update($wpdb->prefix.'icl_translations', array( 'trid' => $trid, 'element_type' => 'post_artxiboa', 'language_code' => 'es', 'source_language_code' => ICL_LANGUAGE_CODE ), array( 'element_id' => $duplicate_tr_id ) );
 /*MODHACK*/ }else{
 /*MODHACK*/ $wpdb->update($wpdb->prefix.'icl_translations', array('language_code'=>'eu'), array('element_id'=> $duplicate_tr_id));
-/*MODHACK*/ $wpdb->update($wpdb->prefix.'icl_translations', array( 'trid' => $trid, 'element_type' => 'post_artxiboa', 'language_code' => 'eu', 'source_language_code' => 'es' ), array( 'element_id' => $duplicate_tr_id ));
+/*MODHACK*/ $wpdb->update($wpdb->prefix.'icl_translations', array( 'trid' => $trid, 'element_type' => 'post_artxiboa', 'language_code' => 'eu', 'source_language_code' => ICL_LANGUAGE_CODE ), array( 'element_id' => $duplicate_tr_id ));
 /*MODHACK*/ }
 
 	// Duplicate all the taxonomies/terms
@@ -106,10 +107,10 @@ function m4c_duplicate_post() {
 		wp_set_object_terms( $duplicate_id, $terms, $taxonomy );
 	}	
 
-/*MODHACK*/$taxonomies = get_object_taxonomies( $duplicate_tr['post_type'] );
-/*MODHACK*/foreach( $taxonomies as $taxonomy ) {
-/*MODHACK*/	$terms = wp_get_post_terms( $trans_id, $taxonomy, array('fields' => 'names') );
-/*MODHACK*/	wp_set_object_terms( $duplicate_tr_id, $terms, $taxonomy );
+/*MODHACK*/$taxonomies1 = get_object_taxonomies( $duplicate_tr['post_type'] );
+/*MODHACK*/foreach( $taxonomies1 as $taxonomy1 ) {
+/*MODHACK*/	$terms1 = wp_get_post_terms( $trans_id, $taxonomy1, array('fields' => 'names') );
+/*MODHACK*/	wp_set_object_terms( $duplicate_tr_id, $terms1, $taxonomy1 );
 /*MODHACK*/}
   
   // Duplicate all the custom fields
