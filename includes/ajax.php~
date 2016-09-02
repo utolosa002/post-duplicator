@@ -4,7 +4,7 @@
  * Thehe jQuery ajax call to create a new post.
  * Duplicates all the data including custom meta.
  *
- * @since 2.18
+ * @since 2.16
  */
 function m4c_duplicate_post() {
 	
@@ -33,24 +33,23 @@ function m4c_duplicate_post() {
 /*MODHACK*/ $duplicate_tr = get_post( $trans_id, 'ARRAY_A' );
 	
 	$settings = get_mtphr_post_duplicator_settings();
-/*MODHACK*/$settings1 = get_mtphr_post_duplicator_settings();
 	
 	// Modify some of the elements
 	$duplicate['post_title'] = $duplicate['post_title'].' '.$settings['title'];
 	$duplicate['post_name'] = sanitize_title($duplicate['post_name'].'-'.$settings['slug']);
-/*MODHACK*/$duplicate_tr['post_title'] = $duplicate_tr['post_title'].' '.$settings1['title'];
-/*MODHACK*/$duplicate_tr['post_name'] = sanitize_title($duplicate_tr['post_name'].'-'.$settings1['slug']);
+/*MODHACK*/$duplicate_tr['post_title'] = $duplicate_tr['post_title'].' '.$settings['title'];
+/*MODHACK*/$duplicate_tr['post_name'] = sanitize_title($duplicate_tr['post_name'].'-'.$settings['slug']);
 
 	// Set the status
 	if( $settings['status'] != 'same' ) {
 		$duplicate['post_status'] = $settings['status'];
-/*MODHACK*/	$duplicate_tr['post_status'] = $settings1['status'];
+/*MODHACK*/	$duplicate_tr['post_status'] = $settings['status'];
 	}
 	
 	// Set the type
 	if( $settings['type'] != 'same' ) {
 		$duplicate['post_type'] = $settings['type'];
-/*MODHACK*/	$duplicate_tr['post_type'] = $settings1['type'];
+/*MODHACK*/	$duplicate_tr['post_type'] = $settings['type'];
 	}
 	
 	// Set the post date
