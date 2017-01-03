@@ -6,10 +6,10 @@ jQuery( document ).ready( function() {
 	 * Creates an ajax request that creates a new post, 
 	 * duplicating all the data and custom meta.
 	 *
-	 * @since 2.12
+	 * @since 2.18
 	 */
 	 
-	jQuery( '.m4c-duplicate-post' ).click( function( e ) {
+	jQuery( '.m4c-duplicate-post' ).live( 'click', function( e ) {
 		
 		e.preventDefault();
 	

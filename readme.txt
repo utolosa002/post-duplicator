@@ -41,6 +41,9 @@ Check out the 'Installation' tab.
 
 == Changelog ==
 
+= 2.18 =
+* Modified javascript for allow duplication of duplicated page before page reload
+
 = 2.17 =
 * XSS vulnerability fix
 * Language file updates
@@ -112,4 +115,4 @@ Must upgrade in order for the plugin to work. The file paths where initially wro
 
 == Upgrade Notice ==
 
-XSS vulnerability fix
+Modified javascript for allow duplication of duplicated page before page reload
