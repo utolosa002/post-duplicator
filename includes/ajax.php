@@ -8,20 +8,10 @@ function mtphr_duplicate_post( $original_id, $args=array(), $do_action=true ) {
 	
 	// Get access to the database
 	global $wpdb;
-
-	// Include WPML API
-	include_once( WP_PLUGIN_DIR . '/sitepress-multilingual-cms/inc/wpml-api.php' );
-
-	// Check the nonce
-	check_ajax_referer( 'm4c_ajax_file_nonce', 'security' );
 	
-	// Get variables
-	$original_id  = $_POST['original_id'];
-
 	// Get the post as an array
 	$duplicate = get_post( $original_id, 'ARRAY_A' );
-	
-	$settings = get_mtphr_post_duplicator_settings();
+		
 	$global_settings = get_mtphr_post_duplicator_settings();
 	$settings = wp_parse_args( $args, $global_settings );
 	
@@ -76,8 +66,8 @@ function mtphr_duplicate_post( $original_id, $args=array(), $do_action=true ) {
   
   // Duplicate all the custom fields
 	$custom_fields = get_post_custom( $original_id );
-	foreach ( $custom_fields as $key => $value ) {
-		if( is_array($value) && count($value) > 0 ) {
+  foreach ( $custom_fields as $key => $value ) {
+	  if( is_array($value) && count($value) > 0 ) {
 			foreach( $value as $i=>$v ) {
 				$result = $wpdb->insert( $wpdb->prefix.'postmeta', array(
 					'post_id' => $duplicate_id,
@@ -92,6 +82,7 @@ function mtphr_duplicate_post( $original_id, $args=array(), $do_action=true ) {
   if( $do_action ) {
   	do_action( 'mtphr_post_duplicator_created', $original_id, $duplicate_id, $settings );
   }
+
 	return $duplicate_id;
 }
 
@@ -104,27 +95,14 @@ function m4c_duplicate_post() {
 
 	// Check the nonce
 	check_ajax_referer( 'm4c_ajax_file_nonce', 'security' );
-
-	// Include WPML API
-	include_once( WP_PLUGIN_DIR . '/sitepress-multilingual-cms/inc/wpml-api.php' );
 	
 	// Get variables
 	$original_id  = $_POST['original_id'];
-
-/*MODHACK*/ $_type  = get_post_type($original_id);
-/*MODHACK*/ if (ICL_LANGUAGE_CODE=='eu' ){
-/*MODHACK*/ $trans_id = icl_object_id($original_id,$_type,false,'es');
-/*MODHACK*/ }else{
-/*MODHACK*/ $trans_id = icl_object_id($original_id,$_type,false,'eu');
-/*MODHACK*/ }
 	
 	// Duplicate the post
 	$duplicate_id = mtphr_duplicate_post( $original_id );
-	// Duplicate the post
-	$duplicate_id_tr = mtphr_duplicate_post( $trans_id );
 
 	echo $duplicate_id;
-	echo $duplicate_id_tr;
 
 	die(); // this is required to return a proper result
 }
