@@ -35,6 +35,7 @@ function get_mtphr_post_duplicator_settings() {
 
 function mtphr_post_duplicator_submitbox( $post ) {
 	if( $post->post_status == 'publish' ) {
+		if( current_user_can('administrator')||current_user_can('editor')||current_user_can('author')) {
 		$post_type = get_post_type_object( $post->post_type );
 		$nonce = wp_create_nonce( 'm4c_ajax_file_nonce' );
 		?>
@@ -42,6 +43,7 @@ function mtphr_post_duplicator_submitbox( $post ) {
 			<a class="m4c-duplicate-post button button-small" rel="<?php echo $nonce; ?>" href="#" data-postid="<?php echo $post->ID; ?>"><?php printf( __( 'Duplicate %s', 'post-duplicator' ), $post_type->labels->singular_name ); ?></a><span class="spinner" style="float:none;margin-top:2px;margin-left:4px;"></span>
 		</div>
 		<?php
+	}
 	}
 }
 add_action( 'post_submitbox_misc_actions', 'mtphr_post_duplicator_submitbox' );
